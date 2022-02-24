@@ -54,7 +54,6 @@ function performSearch() {
     let splitRules = copiedRules.replaceAll(/\t/g, '').split(/\r?\n/);
     let chunkedRules = splitRules.chunk(6);
     let results = [];
-    console.log(chunkedRules);
     for (let i = 0; i < chunkedRules.length; i++) {
         const regex = buildRule(chunkedRules[i][2]);
         console.log(regex);
