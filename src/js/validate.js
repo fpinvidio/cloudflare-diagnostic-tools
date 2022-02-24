@@ -9,13 +9,13 @@ Object.defineProperty(Array.prototype, 'chunk', {
     }
 });
 
-function ecapeUnsafeChars(rule) {
+function transformToRegex(rule) {
     // Should be done better
-    return rule.replace("/", "\/").replace(".", "\.").replace("*", ".*");
+    return rule.replaceAll("/", "\\/").replaceAll(".", "\\.").replaceAll("?", "\\?").replaceAll("*", ".*");
 }
 
 function buildRule(rule) {
-    return ecapeUnsafeChars(rule);
+    return transformToRegex(rule);
 }
 
 function clearList() {
@@ -51,16 +51,15 @@ function showResults(results) {
 function performSearch() {
     const url = document.getElementById("url").value;
     let copiedRules = document.getElementById("pageRules").value;
-    let splitRules = copiedRules.replace(/\t/g, '').split(/\r?\n/);
-    let chunkedRules = splitRules.chunk(6).filter(rule => rule[5] !== "Disabled");
+    let splitRules = copiedRules.replaceAll(/\t/g, '').split(/\r?\n/);
+    let chunkedRules = splitRules.chunk(6);
     let results = [];
     console.log(chunkedRules);
     for (let i = 0; i < chunkedRules.length; i++) {
         const regex = buildRule(chunkedRules[i][2]);
-        const matches = url.match(regex)
+        console.log(regex);
+        const matches = url.match(regex);
         if (matches && matches.length > 0) {
-            console.log("Rule matched");
-            console.log(chunkedRules[i]);
             results.push(chunkedRules[i]);
         }
     }
