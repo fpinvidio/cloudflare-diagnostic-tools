@@ -11,7 +11,7 @@ Object.defineProperty(Array.prototype, 'chunk', {
 
 function transformToRegex(rule) {
     // Should be done better
-    return rule.replaceAll("/", "\\/").replaceAll(".", "\\.").replaceAll("?", "\\?").replaceAll("*", ".*");
+    return rule.replaceAll("/", "\\/").replaceAll(".", "\\.").replaceAll("?", "\\?").replaceAll("*", ".*").concat("$");
 }
 
 function buildRule(rule) {
